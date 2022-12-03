@@ -1,11 +1,9 @@
 # Effects
 
-Effects are used to describe that the code wants to use an operation with given semantics and type but the implementation of the operation is unknown and will be decided later by the caller. Effects meant to be a way to inject functionality into code with very little boilerplate.
-The idea behind effects is that libraries should use effects to describe all their interactions with the external world and let the users decide how to implement those interactions. The effect interface provides a type safe communication between the library author and the library user.
+Effects are used to describe that the code wants to use an operation with given semantics and type but the implementation of the operation is unknown and will be decided later by the caller. Effects are meant to be a way to inject functionality into the code with very little boilerplate.
+The idea behind effects is that libraries should use them to describe all their interactions with the external world and let the users decide how to implement those interactions. The effect interface provides a type safe communication between the library author and the library user.
 
 Effects can appear in the function type but usually they are not present and are inferred by the compiler. The idea is that introducing, changing or removing an effect should not be an activity that affects all function signatures in the call chain, only the effect user and the effect handler functions are affected.
-
-A simple example
 
 ```Siko
 
@@ -23,9 +21,9 @@ main = do
     with { log = logConsole } do
         someFunc
 ```
-In the example above the someFunc function uses the effect called Log. In the example the effect appears in its signature but this effect declaration is fully optional, the list of used effects can be inferred by the compiler.
+In the example above the someFunc function uses the effect called `Log`. In the example the effect appears in its signature but this effect declaration is fully optional, the list of used effects can be inferred by the compiler.
 
-The `with` block introduces an effect handler, it specifies that the log effect call must be handled by the call logConsole for everything inside the with block (including the someFunc call).
+The `with` block introduces an effect handler, it specifies that the `log` effect call must be handled by the call `logConsole` for everything inside the with block (including the `someFunc` call).
 
 Effect handlers can be static or dynamic and effects can introduce types as well.
 
@@ -33,18 +31,16 @@ Effect handlers can be static or dynamic and effects can introduce types as well
 
 ### Effect definition
 
-Effects are defined using the `effect` keyword, otherwise they are very similar to type class definitions. This is not a coincidence. Effects are very similar to type classes, they define an interface, however effects are not bound to types, but scopes.
-
-An effect definition:
+Effects are defined using the `effect` keyword, otherwise they are very similar to type class definitions. This is not a coincidence. Effects are very similar to type classes, they define an interface. However, effects are not bound to types but scopes.
 
 ```Siko
 
 effect (Show a) => Factory a where
-    create a :: a
+    create a :: () -> a
 
 ```
 
-The effect above defines a factory that has a single call called `create` which can create an instance of some type a that implements the interface of the Show typeclass. The effects user does not know what the returned type of a will be, only that it can be converted into a String (using Show).
+The effect above defines a factory that has a single call called `create` which can create an instance of some type `a` that implements the interface of the `Show` typeclass. The effect's user does not know what the returned type of `a` will be, only that it can be converted into a `String` (using `Show`).
 
 ### Declaring used effects in function signatures
 
@@ -64,7 +60,7 @@ someFunc = do
         otherCall
 ```
 
-Effect handlers are defined using the `with` keyword, the `with` block contains a list of definitions. Each definition defines that a effect call is handled by the given handler.
+Effect handlers are defined using the `with` keyword. The `with` block contains a list of definitions. Each definition defines that an effect call is handled by the given handler.
 
 ## Static Effects
 

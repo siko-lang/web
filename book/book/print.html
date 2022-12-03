@@ -143,7 +143,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p>The idea of Siko was born out of frustration of current programming languages (as it is usually the case with any new programming language). I noticed that you can write most algorithms in most of the programming languages but you cannot simply reuse that algorithm in another programming language. You have to manually convert the algorithm from one language to another, considering all the little differences between the two languages. There is something fundamentally broken in the way we express ourselves in a programming language. The computer cannot really understand your code and it cannot just convert the fundamentals of the algorithm between languages. They are so different at the basic level that you cannot include a Haskell module in a C program or cannot simply use a Java lib in a python module without extraordinary hacks.
+<p>The idea of Siko was born out of frustration of current programming languages (as it is usually the case with any new programming language). I noticed that you can write most algorithms in most of the programming languages but you cannot simply reuse that algorithm in another programming language. You have to manually convert the algorithm from one language to another, considering all the little differences between the two languages. There is something fundamentally broken in the way we express ourselves in a programming language. The computer cannot really understand your code and it cannot just convert the fundamentals of the algorithm between languages. They are so different at the basic level that you cannot include a Haskell module in a C program or cannot simply use a Java lib in a Python module without extraordinary hacks.
 I believe the root cause of this issue is that programming languages have well defined runtime semantics and those are usually fully incompatible with some other programming language. However, the code we write does not necessarily have this property. Siko is an experiment in finding a way that can truly capture the essence of an algorithm where both the reader and the compiler can understand the code equally. Siko tries to be a runtime independent programming language, every concept/behaviour in the language is designed to be fully unabmiguous regardless of the actual runtime of target system.
 Siko compiles everything down into primitives so general that any runtime can execute them equally. Siko does not have its own runtime and it could be transpiled into any other language or even compiled into runtime-less native code.
 The current compiler only supports transpiling into Rust.</p>
@@ -166,8 +166,8 @@ main = do
 <div style="break-before: page; page-break-before: always;"></div><h1 id="language-reference"><a class="header" href="#language-reference">Language reference</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="modules"><a class="header" href="#modules">Modules</a></h1>
 <p>A Siko program is simply a collection of modules and modules are a collection of other definitions.
-Every data type/function/typeclass/effect belongs to a single module. Modules are named and their names can contain the '.' character but they are not hierarchical. All modules simply exist at the same level.
-The definiton of a module start wit the <code>module</code> keyword and ends at the end of the file or at the start of the next module.</p>
+Every data type/function/typeclass/effect belongs to a single module. Modules are named and their names can contain the <code>.</code> character but they are not hierarchical. All modules simply exist at the same level.
+The definiton of a module starts with the <code>module</code> keyword and ends at the end of the file or at the start of the next module.</p>
 <pre><code class="language-Siko">
 module My.First.Module where
 
@@ -193,7 +193,7 @@ data Expr = Lit Int
           | Mul Expr Expr
 
 </code></pre>
-<p>Types can be generic:</p>
+<p>Types can be generic.</p>
 <pre><code class="language-Siko">
 data Option a = Some a | None
 
@@ -210,7 +210,6 @@ data Student = { name :: String,
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="functions"><a class="header" href="#functions">Functions</a></h1>
 <p>Although Siko is an imperative programming language, it is heavily functional in its style, thus functions play a crucial role in Siko programs.</p>
-<p>Function definition examples</p>
 <pre><code class="language-Siko">
 id a :: a -&gt; a
 id a = a
@@ -233,7 +232,7 @@ foo = do
     println msg
 
 </code></pre>
-<p>The <code>do</code> expression is a syntactic equivalent of a normal imperative block. It starts with the <code>do</code> keyword and contains one or more expressions which are evaluated in order, <code>do</code> blocks also provide scoping for name bindings. The return value of a <code>do</code> block is the value of the last expression in the block.</p>
+<p>The <code>do</code> expression is a syntactic equivalent of a normal imperative block. It starts with the <code>do</code> keyword and contains one or more expressions which are evaluated in order. Additionally, <code>do</code> blocks also provide scoping for name bindings. The return value of a <code>do</code> block is the value of the last expression in the block.</p>
 <h4 id="bind"><a class="header" href="#bind">bind</a></h4>
 <pre><code class="language-Siko">
 foo = do
@@ -270,7 +269,7 @@ literals = do
 
 </code></pre>
 <h3 id="if"><a class="header" href="#if">if</a></h3>
-<p>The <code>if</code> expression can be used to create conditional expressions, the <code>else</code> block is always required. The <code>if</code> expression evaluates either the true branch or the false branch and returns the value of selected branch.</p>
+<p>The <code>if</code> expression can be used to create conditional expressions, the <code>else</code> block is always required. The <code>if</code> expression evaluates either the true branch or the false branch and returns the value of the selected branch.</p>
 <pre><code class="language-Siko">
 isLarge n = if n &gt; 10 then True else False
 
@@ -334,7 +333,7 @@ loopTest = loop index &lt;- 1 do
             else index + 1
 </code></pre>
 <h3 id="continue"><a class="header" href="#continue">continue</a></h3>
-<p>The <code>continue</code> expression jumps out of the current <code>loop</code> body and loop's current value will be the value of the expression given as the argument of continue.</p>
+<p>The <code>continue</code> expression jumps out of the current <code>loop</code> body and the loop's current value will be the value of the expression given as the argument of continue.</p>
 <pre><code class="language-Siko">
 loopTest = loop index &lt;- 1 do
         print &quot;Cycle count {}&quot; % index
@@ -353,7 +352,7 @@ loopTest = loop index &lt;- 1 do
 <h3 id="patterns"><a class="header" href="#patterns">Patterns</a></h3>
 <p>#TODO</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="type-classes"><a class="header" href="#type-classes">Type classes</a></h1>
-<p>Type classes in Siko represent interfaces, it is a way to describe that a particular set of types support a set of operations.</p>
+<p>Type classes in Siko represent interfaces, it is a way to describe that a particular set of types supports a set of operations.</p>
 <pre><code class="language-Siko">class ToString a where
     toString a :: a -&gt; String
 </code></pre>
@@ -372,10 +371,9 @@ instance ToString Person where
 
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="effects"><a class="header" href="#effects">Effects</a></h1>
-<p>Effects are used to describe that the code wants to use an operation with given semantics and type but the implementation of the operation is unknown and will be decided later by the caller. Effects meant to be a way to inject functionality into code with very little boilerplate.
-The idea behind effects is that libraries should use effects to describe all their interactions with the external world and let the users decide how to implement those interactions. The effect interface provides a type safe communication between the library author and the library user.</p>
+<p>Effects are used to describe that the code wants to use an operation with given semantics and type but the implementation of the operation is unknown and will be decided later by the caller. Effects are meant to be a way to inject functionality into the code with very little boilerplate.
+The idea behind effects is that libraries should use them to describe all their interactions with the external world and let the users decide how to implement those interactions. The effect interface provides a type safe communication between the library author and the library user.</p>
 <p>Effects can appear in the function type but usually they are not present and are inferred by the compiler. The idea is that introducing, changing or removing an effect should not be an activity that affects all function signatures in the call chain, only the effect user and the effect handler functions are affected.</p>
-<p>A simple example</p>
 <pre><code class="language-Siko">
 effect Log where
     log :: String -&gt; ()
@@ -391,19 +389,18 @@ main = do
     with { log = logConsole } do
         someFunc
 </code></pre>
-<p>In the example above the someFunc function uses the effect called Log. In the example the effect appears in its signature but this effect declaration is fully optional, the list of used effects can be inferred by the compiler.</p>
-<p>The <code>with</code> block introduces an effect handler, it specifies that the log effect call must be handled by the call logConsole for everything inside the with block (including the someFunc call).</p>
+<p>In the example above the someFunc function uses the effect called <code>Log</code>. In the example the effect appears in its signature but this effect declaration is fully optional, the list of used effects can be inferred by the compiler.</p>
+<p>The <code>with</code> block introduces an effect handler, it specifies that the <code>log</code> effect call must be handled by the call <code>logConsole</code> for everything inside the with block (including the <code>someFunc</code> call).</p>
 <p>Effect handlers can be static or dynamic and effects can introduce types as well.</p>
 <h2 id="effect-syntax"><a class="header" href="#effect-syntax">Effect syntax</a></h2>
 <h3 id="effect-definition"><a class="header" href="#effect-definition">Effect definition</a></h3>
-<p>Effects are defined using the <code>effect</code> keyword, otherwise they are very similar to type class definitions. This is not a coincidence. Effects are very similar to type classes, they define an interface, however effects are not bound to types, but scopes.</p>
-<p>An effect definition:</p>
+<p>Effects are defined using the <code>effect</code> keyword, otherwise they are very similar to type class definitions. This is not a coincidence. Effects are very similar to type classes, they define an interface. However, effects are not bound to types but scopes.</p>
 <pre><code class="language-Siko">
 effect (Show a) =&gt; Factory a where
-    create a :: a
+    create a :: () -&gt; a
 
 </code></pre>
-<p>The effect above defines a factory that has a single call called <code>create</code> which can create an instance of some type a that implements the interface of the Show typeclass. The effects user does not know what the returned type of a will be, only that it can be converted into a String (using Show).</p>
+<p>The effect above defines a factory that has a single call called <code>create</code> which can create an instance of some type <code>a</code> that implements the interface of the <code>Show</code> typeclass. The effect's user does not know what the returned type of <code>a</code> will be, only that it can be converted into a <code>String</code> (using <code>Show</code>).</p>
 <h3 id="declaring-used-effects-in-function-signatures"><a class="header" href="#declaring-used-effects-in-function-signatures">Declaring used effects in function signatures</a></h3>
 <pre><code class="language-Siko">
 someFunc a :: Int -&gt; String using (Factory a)
@@ -415,7 +412,7 @@ someFunc = do
     with { someOp = myOp } do
         otherCall
 </code></pre>
-<p>Effect handlers are defined using the <code>with</code> keyword, the <code>with</code> block contains a list of definitions. Each definition defines that a effect call is handled by the given handler.</p>
+<p>Effect handlers are defined using the <code>with</code> keyword. The <code>with</code> block contains a list of definitions. Each definition defines that an effect call is handled by the given handler.</p>
 <h2 id="static-effects"><a class="header" href="#static-effects">Static Effects</a></h2>
 <p>Static effects are effects with a statically dispatched handler, i.e. the compiler can decide, at compile time, which function will be called as the effect handler.</p>
 <pre><code class="language-Siko">
@@ -458,7 +455,7 @@ main = do
 <p>In the above example, the <code>get</code> is defined to be handled by a closure which is a runtime defined entity with an associated environment (contains the value of config). Thus, this call can only be dynamically dispatched. In this scenario, the compiler injects the closure as a hidden argument to all affected function, i.e. <code>someFunc</code> will have an extra parameter that contains the closure which will be called by the <code>get</code> call at runtime.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="memory-management"><a class="header" href="#memory-management">Memory management</a></h1>
 <p>Siko being a runtime agnostic programming language, its memory management solution must be as barebone as possible.
-Other programming languages with heavy runtimes usually provide garbage collection solutions which have a global side effect. Every value in the system is affected by this decision, being a garbage collected language is a global property. The idea behind Siko's memory management is to get rid of this runtime dependent global property. The only global property values in Siko have is that they exist. Of course, they can have other properties, depending on their type, but none of the properties are true for every value in the program. Because Siko is not a low level system language, we do not have the need to be able to create pointers to every value in the program or to be able to meticulously define the storage type of every value. This gives freedom to the compiler to decide the details and freedom to the user to not care as much. On the other hand, nobody wants a slow language so the compiler must be able to generate code that is quite performant.</p>
+Other programming languages with heavy runtimes usually provide garbage collection solutions which have a global side effect. Every value in the system is affected by this decision, being a garbage collected language is a global property. The idea behind Siko's memory management is to get rid of this runtime dependent global property. The only global property, values in Siko have, is that they exist. Of course, they can have other properties, depending on their type, but none of the properties are true for every value in the program. Because Siko is not a low level system language, we do not have the need to be able to create pointers to every value in the program or to be able to meticulously define the storage type of every value. This gives freedom to the compiler to decide the details and freedom to the user to not care as much. On the other hand, nobody wants a slow language so the compiler must be able to generate code that is quite performant.</p>
 <p>The exact memory management strategy used by the Siko compiler is that every value is moved at their last use and borrowed at every previous use.</p>
 <pre><code class="language-Siko">data Person = { name :: String } deriving (Show)
 

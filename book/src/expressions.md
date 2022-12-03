@@ -14,7 +14,7 @@ foo = do
 
 ```
 
-The `do` expression is a syntactic equivalent of a normal imperative block. It starts with the `do` keyword and contains one or more expressions which are evaluated in order, `do` blocks also provide scoping for name bindings. The return value of a `do` block is the value of the last expression in the block.
+The `do` expression is a syntactic equivalent of a normal imperative block. It starts with the `do` keyword and contains one or more expressions which are evaluated in order. Additionally, `do` blocks also provide scoping for name bindings. The return value of a `do` block is the value of the last expression in the block.
 
 #### bind
 
@@ -67,7 +67,7 @@ literals = do
 
 ### if
 
-The `if` expression can be used to create conditional expressions, the `else` block is always required. The `if` expression evaluates either the true branch or the false branch and returns the value of selected branch.
+The `if` expression can be used to create conditional expressions, the `else` block is always required. The `if` expression evaluates either the true branch or the false branch and returns the value of the selected branch.
 
 ```Siko
 
@@ -164,7 +164,7 @@ loopTest = loop index <- 1 do
 
 ### continue
 
-The `continue` expression jumps out of the current `loop` body and loop's current value will be the value of the expression given as the argument of continue.
+The `continue` expression jumps out of the current `loop` body and the loop's current value will be the value of the expression given as the argument of continue.
 
 ```Siko
 

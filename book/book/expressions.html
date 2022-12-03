@@ -151,7 +151,7 @@ foo = do
     println msg
 
 </code></pre>
-<p>The <code>do</code> expression is a syntactic equivalent of a normal imperative block. It starts with the <code>do</code> keyword and contains one or more expressions which are evaluated in order, <code>do</code> blocks also provide scoping for name bindings. The return value of a <code>do</code> block is the value of the last expression in the block.</p>
+<p>The <code>do</code> expression is a syntactic equivalent of a normal imperative block. It starts with the <code>do</code> keyword and contains one or more expressions which are evaluated in order. Additionally, <code>do</code> blocks also provide scoping for name bindings. The return value of a <code>do</code> block is the value of the last expression in the block.</p>
 <h4 id="bind"><a class="header" href="#bind">bind</a></h4>
 <pre><code class="language-Siko">
 foo = do
@@ -188,7 +188,7 @@ literals = do
 
 </code></pre>
 <h3 id="if"><a class="header" href="#if">if</a></h3>
-<p>The <code>if</code> expression can be used to create conditional expressions, the <code>else</code> block is always required. The <code>if</code> expression evaluates either the true branch or the false branch and returns the value of selected branch.</p>
+<p>The <code>if</code> expression can be used to create conditional expressions, the <code>else</code> block is always required. The <code>if</code> expression evaluates either the true branch or the false branch and returns the value of the selected branch.</p>
 <pre><code class="language-Siko">
 isLarge n = if n &gt; 10 then True else False
 
@@ -252,7 +252,7 @@ loopTest = loop index &lt;- 1 do
             else index + 1
 </code></pre>
 <h3 id="continue"><a class="header" href="#continue">continue</a></h3>
-<p>The <code>continue</code> expression jumps out of the current <code>loop</code> body and loop's current value will be the value of the expression given as the argument of continue.</p>
+<p>The <code>continue</code> expression jumps out of the current <code>loop</code> body and the loop's current value will be the value of the expression given as the argument of continue.</p>
 <pre><code class="language-Siko">
 loopTest = loop index &lt;- 1 do
         print &quot;Cycle count {}&quot; % index

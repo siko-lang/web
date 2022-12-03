@@ -1,6 +1,6 @@
 # Type classes
 
-Type classes in Siko represent interfaces, it is a way to describe that a particular set of types support a set of operations.
+Type classes in Siko represent interfaces, it is a way to describe that a particular set of types supports a set of operations.
 
 ```Siko
 class ToString a where

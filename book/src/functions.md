@@ -2,8 +2,6 @@
 
 Although Siko is an imperative programming language, it is heavily functional in its style, thus functions play a crucial role in Siko programs.
 
-Function definition examples
-
 ```Siko
 
 id a :: a -> a

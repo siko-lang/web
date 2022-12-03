@@ -1,6 +1,6 @@
 # Algebraic data types
 
-Algebraic data types are defined using the ```data``` keyword.
+Algebraic data types are defined using the `data` keyword.
 
 ```Siko
 
@@ -15,7 +15,7 @@ data Expr = Lit Int
 
 ```
 
-Types can be generic:
+Types can be generic.
 
 ```Siko
 
