@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <title>Siko programming language</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+  </head>
+  <body>
+    <script type="module">
+      import { compile, default as init } from './wasm_siko.js';
+
+      async function run() {
+        await init('./wasm_siko.wasm');
+
+        // make the function available to the browser
+        window.siko_compile = compile;
+      }
+
+        fetch('./std.txt')
+          .then(response => response.text())
+          .then((data) => {
+                window.siko_std = data
+        })
+
+      function siko_compile_helper() {
+        if (usestd.checked) {
+            output.value = siko_compile(source_code.value + '\n' + siko_std)
+        }
+        else {
+            output.value = siko_compile(source_code.value)
+        }
+      }
+
+      window.siko_compile_helper = siko_compile_helper
+
+      run();
+    </script>
+    <form onSubmit="return false">
+        <table>
+        <input
+            type="submit"
+            value="Compile"
+            onClick="siko_compile_helper()"/>
+        <p>
+        Use std: <input type="checkbox" id="usestd" checked="yes"/>
+        </p>
+        <tr>
+        <td>
+        <textarea rows="60" cols="100" id="source_code">
+module Main where
+
+data City = { name :: String, population :: Int }
+
+collectSmallCities :: [City] -> [String]
+collectSmallCities cities = 
+    List.filterMap cities small
+        where 
+            small :: City -> Option String
+            small city = if city.population < 6
+                    then Some city.name
+                    else None
+
+main = do
+   cities <- [City "first" 5, City "second" 6]
+   smalls <- collectSmallCities cities
+   println "Small cities {}" % smalls 
+   all <- List.map cities (\city -> city.name)
+   println "All cities {}" % all
+        </textarea>
+        </td>
+        <td>
+        <textarea rows="60" cols="100" id="output"></textarea>
+        </td>
+        </tr>
+        </table>
+    </form>
+  </body>
+
+</html>
