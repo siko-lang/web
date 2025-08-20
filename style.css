@@ -95,6 +95,10 @@ h3 {
     margin-bottom: 0.5em;
 }
 
+p {
+    text-indent: 20px;
+}
+
 #logo {
     width: 520px;
     /* or any size you want */
