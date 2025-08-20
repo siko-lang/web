@@ -25,7 +25,7 @@
         Siko now supports <b>implicits</b> and <b>effect handlers</b>.
         Because it may not be obvious what these features do and more importantly how they are implemented,
         we will look into them using a simple teletype example. Without much further ado, let's dive into the code.
-        Here is the full example and we will explain it in detail afterwards.
+        Here is the full example and we will explore it in detail afterwards.
       </p>
       <pre><code class="language-siko" id="siko-example">
 module TeleType {
@@ -96,7 +96,7 @@ fn main() {
         controlled manner. The effect definition looks similar to a trait definition because it acts as an interface
         but in contrast to instances (the trait implementations), effects are not handled globally, their actual
         implementation is context dependent. The execution context of a code block determines how the effect is handled.
-        In different words, the effect acts as a hole in the program, allowing the caller to control what happens when
+        In other words, the effect acts as a hole in the program, allowing the caller to control what happens when
         an
         effect is called.
         Because Siko is a low level programming language, it does not have a language
@@ -106,26 +106,29 @@ fn main() {
         In Siko, effects are statically resolved at compile time and every function that uses an effect is monomorphized
         to a specific implementation of the effect. In the actual compiled code, there are no runtime
         checks or dynamic dispatch involved when dealing with effects. In the case of the teletype example, the teletype
-        loop is compiled twice, one for testing and one for real execution. When the monomorphizer encounters a
+        loop is compiled twice, once for testing and once for real execution. When the monomorphizer encounters a
         <i>with</i>
         block it updates the effect handlers in the current context, so that whenever an effect call is encountered, the
         selected implementation will simply replace the effect call. This is as static as it gets, the function call is
         literally just replaced. Obviously, everything is type checked and the monomorphizer will complain if
         the effect is not handled properly, i.e. the current context does not provide an implementation for an
         encountered
-        effect call. So far so good, but you may be wondering, the usability of this is questionable, because it is not
+        effect call. So far so good, but you may be wondering: the usability of this is questionable because it is not
         possible to attach
         state to the effect calls. That's where implicits come into play! Similarly to effects, implicits are also
         context dependent,
-        but they are not functions rather they are variables that can be used in the current context. They don't provide
-        functionality, they provide state. In the example, we define an implicit variable <i>state</i> that keeps track
-        of the current state of the test executor. Implicits are bound to local variables using the with block, similary
+        but they are not functions, rather they are variables that can be used in the current context. They don't
+        provide
+        functionality, they provide state. In the example, we define an implicit variable named <i>state</i> that keeps
+        track
+        of the current state of the test executor. Implicits are bound to local variables using the with block,
+        similarly
         to
         effects. Every code in that execution context (arbitrarily deep in the callchain) that wants to use the implicit
         variable can do so and will use the
-        bound local variable behind the scenes. As you can see, the actual teletype implementation has no idea that the
-        test
-        code injects state into the loop. Implicits can be immutable and mutable. Implicits are compiled away into an
+        bound local variable behind the scenes. As you can see, the actual teletype implementation is not aware of
+        the test code injecting state into the loop. Implicits can be immutable and mutable. Implicits are compiled away
+        into an
         implicitly passed context parameter. The context variable contains a list of implicits in the current execution
         context and each access to the implicit is replaced by accessing the correct member of the context variable.
         I find both implicits and effect handlers a clean abstraction but there are still open design questions.
