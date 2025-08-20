@@ -1,14 +1,209 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Siko programming language</title>
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
-  </head>
-  <body>
-    <table>
-        <tr>
-        <td><a href="https://github.com/siko-lang/siko">[Github]</a></td>
-        <td><a href="https://discord.gg/Gfd8YDrYVC">[Discord]</a></td>
-        </tr>
-    </table>
-  </body>
+
+<head>
+  <title>Siko programming language</title>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type" />
+  <!-- Highlight.js CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header class="blog-header">
+    <div class="logo-container">
+      <img src="logo.png" alt="Siko programming language" id="logo" />
+    </div>
+    <h1 class="blog-title">Siko Programming Language Blog</h1>
+  </header>
+
+  <div class="blog-container">
+    <div class="blog-entry">
+      <div class="blog-date">2025 August 20</div>
+      <h2>Implicits and effect handlers</h2>
+      <p>
+        Siko now supports <b>implicits</b> and <b>effect handlers</b>.
+        Because it may not be obvious what these features do and more importantly how they are implemented,
+        we will look into them using a simple teletype example. Without much further ado, let's dive into the code.
+        Here is the full example and we will explain it in detail afterwards.
+      </p>
+      <pre><code class="language-siko" id="siko-example">
+module TeleType {
+
+pub effect TeleType {
+  fn readLine() -> String
+  fn println(input: &String)
+}
+
+pub fn run() {
+  while True {
+    let input = readLine();
+    if input == "exit" {
+      break;
+    }
+    println("You said: " + input);
+  }
+}
+
+}
+
+module Main {
+
+import TeleType as T
+
+implicit mut state: Int
+
+fn mockReadLine() -> String {
+  if state < 3 {
+    state += 1;
+    "mocked: ${state}"
+  } else {
+    "exit".toString()
+  }
+}
+
+fn mockPrintln(input: &String) {
+  let expectedString = "You said: mocked: ${state}";
+  assert(expectedString == input);
+}
+
+fn testTeleType() {
+  let mut state = 0;
+  with T.println = mockPrintln,
+     T.readLine = mockReadLine,
+     state = state {
+    T.run();
+  }
+}
+
+fn realTeleType() {
+  println("Starting teletype");
+  with T.println = println,
+       T.readLine = readLine {
+    T.run();
+  }
+}
+
+fn main() {
+  testTeleType();
+  realTeleType();
+}
+
+}
+      </code></pre>
+      <p>
+        The example program defines a single TeleType effect that allows for reading and writing to the console in a
+        controlled manner. The effect definition looks similar to a trait definition because it acts as an interface
+        but in contrast to instances (the trait implementations), effects are not handled globally, their actual
+        implementation is context dependent. The execution context of a code block determines how the effect is handled.
+        In different words, the effect acts as a hole in the program, allowing the caller to control what happens when
+        an
+        effect is called.
+        Because Siko is a low level programming language, it does not have a language
+        specific runtime, it does not do stack juggling in a way that you would expect if you heard about algebraic
+        effects
+        previously.
+        In Siko, effects are statically resolved at compile time and every function that uses an effect is monomorphized
+        to a specific implementation of the effect. In the actual compiled code, there are no runtime
+        checks or dynamic dispatch involved when dealing with effects. In the case of the teletype example, the teletype
+        loop is compiled twice, one for testing and one for real execution. When the monomorphizer encounters a
+        <i>with</i>
+        block it updates the effect handlers in the current context, so that whenever an effect call is encountered, the
+        selected implementation will simply replace the effect call. This is as static as it gets, the function call is
+        literally just replaced. Obviously, everything is type checked and the monomorphizer will complain if
+        the effect is not handled properly, i.e. the current context does not provide an implementation for an
+        encountered
+        effect call. So far so good, but you may be wondering, the usability of this is questionable, because it is not
+        possible to attach
+        state to the effect calls. That's where implicits come into play! Similarly to effects, implicits are also
+        context dependent,
+        but they are not functions rather they are variables that can be used in the current context. They don't provide
+        functionality, they provide state. In the example, we define an implicit variable <i>state</i> that keeps track
+        of the current state of the test executor. Implicits are bound to local variables using the with block, similary
+        to
+        effects. Every code in that execution context (arbitrarily deep in the callchain) that wants to use the implicit
+        variable can do so and will use the
+        bound local variable behind the scenes. As you can see, the actual teletype implementation has no idea that the
+        test
+        code injects state into the loop. Implicits can be immutable and mutable. Implicits are compiled away into an
+        implicitly passed context parameter. The context variable contains a list of implicits in the current execution
+        context and each access to the implicit is replaced by accessing the correct member of the context variable.
+        I find both implicits and effect handlers a clean abstraction but there are still open design questions.
+        For example, Siko currently does not have closures but I want to introduce them and their interaction with
+        effects and implicits is not yet clear.
+      </p>
+    </div>
+    <div class="blog-entry">
+      <div class="blog-date">2025 August 20</div>
+      <h2>Siko language redesign</h2>
+      <p>
+        For those who encountered Siko before and for some reason still remember it, you may have noticed that the
+        language has undergone some significant changes.
+        The goal of this redesign is to improve usability, performance, and overall developer experience.
+        Both visually and semantically, the language is now an imperative language.
+      </p>
+      <pre><code class="language-siko">
+module Main {
+
+fn main() {
+  println("Hello, Siko!");
+}
+
+}
+    </div>
+  </div>
+<table style="margin-bottom: 1em;">
+    <tr>
+      <td><a href="https://github.com/siko-lang/siko" target="_blank" rel="noopener" title="GitHub">
+          <img src="github.svg" alt="GitHub" height="32" width="32"
+            style="vertical-align:middle; filter: grayscale(1);">
+        </a></td>
+      <td><a href="https://discord.gg/Gfd8YDrYVC" target="_blank" rel="noopener" title="Discord">
+          <img src="discord.svg" alt="Discord" height="32" width="32" style="vertical-align:middle;">
+        </a></td>
+    </tr>
+  </table>
+</body>
+
+</html>
+<!-- Highlight.js JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+  // Register Siko language with highlight.js
+  hljs.registerLanguage('siko', function (hljs) {
+    return {
+      name: 'Siko',
+      keywords: {
+        keyword: 'let match if else return for in while loop break continue try yield module import as where extern fn enum struct trait instance deriving effect with implicit using self Self mut type pub and or'
+      },
+      contains: [
+        hljs.QUOTE_STRING_MODE,
+        {
+          className: 'number',
+          begin: /\b[0-9]+(\.[0-9]+)?\b/
+        },
+        {
+          className: 'operator',
+          begin: /(==|!=|<=|>=|<-|->|<|>)/
+        },
+        {
+          className: 'type',
+          begin: /\b([A-Z][a-zA-Z0-9_]*)\b/
+        },
+        {
+          className: 'variable',
+          begin: /\b([a-z][a-zA-Z0-9_]*)\b/,
+          keywords: 'let match if else return for in while loop break continue try yield module import as where extern fn enum struct trait instance deriving effect with implicit using self Self mut type pub and or',
+          relevance: 0
+        },
+        {
+          className: 'subst',
+          begin: /\$\{/, end: /\}/
+        }
+      ]
+    };
+  });
+  hljs.highlightAll();
+</script>
+
 </html>
