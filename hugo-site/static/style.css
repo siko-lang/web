@@ -1,7 +1,7 @@
 .logo-container {
     background: #fef9f1;
     border-radius: 16px;
-    box-shadow: 0 2px 8px 0 #0001;
+    /* box-shadow: 0 2px 8px 0 #0001; */
     padding: 0.4em;
     display: flex;
     align-items: center;
@@ -11,9 +11,9 @@
 }
 
 .blog-header {
-    background: #a0cdfa;
+    background: #01172e;
     border-radius: 12px;
-    box-shadow: 0 2px 8px 0 #0001;
+    /* box-shadow: 0 2px 8px 0 #0001; */
     padding: 2em 2em 1em 2em;
     margin-bottom: 2.5em;
     display: flex;
@@ -30,7 +30,7 @@
 .blog-header h1 {
     font-size: 2.5em;
     font-weight: 700;
-    color: #234;
+    color: rgb(255, 255, 255);
     margin: 0;
     letter-spacing: 1px;
     text-shadow: 0 2px 8px #a0cdfa44;
@@ -42,16 +42,16 @@
 }
 
 .blog-entry {
-    background: #fff;
+    background: #01172e;
     border-radius: 8px;
-    box-shadow: 0 2px 8px 0 #0001;
+    /* box-shadow: 0 2px 8px 0 #0857a7; */
     margin-bottom: 2.5em;
     padding: 2em 2em 1.5em 2em;
-    border-left: 6px solid #a0cdfa;
+    /* border-left: 6px solid #0857a7; */
 }
 
 .blog-date {
-    color: #888;
+    color: #f5f5f1;
     font-size: 0.95em;
     margin-bottom: 0.5em;
     font-style: italic;
@@ -60,12 +60,13 @@
 body {
     max-width: 1100px;
     margin: 40px auto;
-    background: #f8f9fa;
-    color: #222;
-    font-family: 'Segoe UI', 'Helvetica Neue', Arial, 'Liberation Sans', sans-serif;
+    background: #01172e;
+    color: #ffffff;
+    font-family: 'Inconsolata', monospace;
+    /* font-family: 'Segoe UI', 'Helvetica Neue', Arial, 'Liberation Sans', sans-serif; */
     font-size: 1.1em;
     line-height: 1.7;
-    box-shadow: 0 0 16px 0 #0002;
+    /* box-shadow: 0 0 16px 0 #0857a7; */
     border-radius: 10px;
     padding: 32px 24px 24px 24px;
     text-align: justify;
@@ -74,13 +75,13 @@ body {
 pre {
     overflow-x: auto;
     border-radius: 8px;
-    padding: 1em;
-    border: 1px solid #000000;
-    background: #a0cdfa !important;
+    padding: 0.1em;
+    border: 0.4px solid #000000;
+    background: #0857a7 !important;
 }
 
 code {
-    background: #a0cdfa !important;
+    background: #303031 !important;
 }
 
 table {
@@ -90,10 +91,22 @@ table {
 h1,
 h2,
 h3 {
+    color: rgb(255, 255, 255);
     font-weight: 600;
     margin-top: 1.5em;
     margin-bottom: 0.5em;
 }
+
+h2 a:link {
+    color: rgb(255, 255, 255);
+    /* normal unvisited link */
+}
+
+h2 a:visited {
+    color: rgb(255, 255, 255);
+    /* visited (clicked) link */
+}
+
 
 p {
     text-indent: 20px;
@@ -110,11 +123,35 @@ p {
     /* optional: centers the logo */
 }
 
-/* Custom highlight.js overrides for Siko
-.hljs-type {
-  color: #b07d00 !important;
+/* Custom highlight.js overrides for Siko */
+/* Base text color for code blocks - all identifiers will use this */
+.hljs {
+    color: #ffffff !important;
+    /* Purple for identifiers/variables */
 }
 
-.hljs-variable {
-  color: #005cc5 !important;
-} */
+.hljs-comment {
+    color: #969393 !important;
+    font-style: italic;
+}
+
+.hljs-keyword {
+    color: #d1fc4f !important;
+    /* Blue for keywords */
+    font-weight: bold;
+}
+
+.hljs-type {
+    color: #f05cbf !important;
+    /* Orange for types */
+}
+
+.hljs-string {
+    color: #009900 !important;
+    /* Green for strings */
+}
+
+.hljs-number {
+    color: #cc6600 !important;
+    /* Orange for numbers */
+}

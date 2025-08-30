@@ -1,35 +1,41 @@
 // Siko language syntax highlighting for Highlight.js
 hljs.registerLanguage('siko', function (hljs) {
+    // Language keywords only
+    const KEYWORDS = [
+        'if', 'then', 'else', 'let', 'in',
+        'data', 'type', 'class', 'instance', 'derive', 'import', 'module',
+        'record', 'trait', 'impl', 'for', 'effect', 'eff', 'return', 'try',
+        'with', 'extern', 'loop', 'break', 'continue', 'while', 'match',
+        'as', 'when', 'unless', 'defer', 'yield', 'async', 'await', 'fn',
+        'enum', 'struct', 'mut', 'pub', 'self', 'Self', 'and', 'or', 'not',
+        'using', 'implicit', 'deriving'
+    ];
+
     return {
-      name: 'Siko',
-      keywords: {
-        keyword: 'let match if else return for in while loop break continue try yield module import as where extern fn enum struct trait instance deriving effect with implicit using self Self mut type pub and or'
-      },
-      contains: [
-        hljs.QUOTE_STRING_MODE,
-        {
-          className: 'number',
-          begin: /\b[0-9]+(\.[0-9]+)?\b/
+        name: 'Siko',
+        keywords: {
+            keyword: KEYWORDS,
         },
-        {
-          className: 'operator',
-          begin: /(==|!=|<=|>=|<-|->|<|>)/
-        },
-        {
-          className: 'type',
-          begin: /\b([A-Z][a-zA-Z0-9_]*)\b/
-        },
-        {
-          className: 'variable',
-          begin: /\b([a-z][a-zA-Z0-9_]*)\b/,
-          keywords: 'let match if else return for in while loop break continue try yield module import as where extern fn enum struct trait instance deriving effect with implicit using self Self mut type pub and or',
-          relevance: 0
-        },
-        {
-          className: 'subst',
-          begin: /\$\{/, end: /\}/
-        }
-      ]
+        contains: [
+            // Strings
+            {
+                className: 'string',
+                begin: '"',
+                end: '"',
+                contains: [hljs.BACKSLASH_ESCAPE]
+            },
+            // Numbers
+            hljs.C_NUMBER_MODE,
+            // Types (uppercase identifiers only)
+            {
+                className: 'type',
+                begin: /\b[A-Z][a-zA-Z0-9_]*\b/,
+                relevance: 0
+            },
+            // Comments are last (lowest precedence)
+            hljs.COMMENT('//', '$'),
+            hljs.COMMENT('/\\*', '\\*/')
+        ]
     };
-  });
-  hljs.highlightAll();
+});
+hljs.highlightAll();
