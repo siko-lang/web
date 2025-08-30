@@ -1,0 +1,16 @@
+baseURL = 'https://siko-lang.github.io/'
+languageCode = 'en-us'
+title = 'Siko Programming Language Blog'
+theme = 'siko'
+
+# Disable RSS feed generation and taxonomies
+disableKinds = ['RSS', 'taxonomy', 'term']
+
+[params]
+  description = 'A blog about the Siko programming language'
+
+[markup]
+  [markup.highlight]
+    style = 'vs'
+    lineNos = true
+    lineNumbersInTable = false

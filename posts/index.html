@@ -1,0 +1,84 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Posts - Siko Programming Language Blog</title><meta name=description content="A blog about the Siko programming language"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css><link rel=stylesheet href=/style.css></head><body><header class=blog-header><div class=logo-container><img src=/logo.png alt="Siko programming language" id=logo></div><h1 class=blog-title>Siko Programming Language Blog</h1></header><table style=margin-bottom:1em><tr><td><a href=https://github.com/siko-lang/siko target=_blank rel=noopener title=GitHub><img src=/github.svg alt=GitHub height=32 width=32 style=vertical-align:middle;filter:grayscale(1)></a></td><td><a href=https://discord.gg/Gfd8YDrYVC target=_blank rel=noopener title=Discord><img src=/discord.svg alt=Discord height=32 width=32 style=vertical-align:middle></a></td></tr></table><main><h1>Posts</h1><h2><a href=/posts/implicits-effect-handlers/>Implicits and effect handlers</a></h2><p>Siko now supports <strong>implicits</strong> and <strong>effect handlers</strong>.
+Because it may not be obvious what these features do and more importantly how they are implemented,
+we will look into them using a simple teletype example. Without much further ado, let&rsquo;s dive into the code.
+Here is the full example and we will explore it in detail afterwards.</p><pre tabindex=0><code class=language-siko data-lang=siko>module TeleType {
+
+pub effect TeleType {
+  fn readLine() -&gt; String
+  fn println(input: &amp;String)
+}
+
+pub fn run() {
+  while True {
+    let input = readLine();
+    if input == &#34;exit&#34; {
+      break;
+    }
+    println(&#34;You said: &#34; + input);
+  }
+}
+
+}
+
+module Main {
+
+import TeleType as T
+
+implicit mut state: Int
+
+fn mockReadLine() -&gt; String {
+  if state &lt; 3 {
+    state += 1;
+    &#34;mocked: ${state}&#34;
+  } else {
+    &#34;exit&#34;.toString()
+  }
+}
+
+fn mockPrintln(input: &amp;String) {
+  let expectedString = &#34;You said: mocked: ${state}&#34;;
+  assert(expectedString == input);
+}
+
+fn testTeleType() {
+  let mut state = 0;
+  with T.println = mockPrintln,
+     T.readLine = mockReadLine,
+     state = state {
+    T.run();
+  }
+}
+
+fn realTeleType() {
+  println(&#34;Starting teletype&#34;);
+  with T.println = println,
+       T.readLine = readLine {
+    T.run();
+  }
+}
+
+fn main() {
+  testTeleType();
+  realTeleType();
+}
+
+}
+</code></pre><p>The example program defines a single TeleType effect that allows for reading and writing to the console in a
+controlled manner. The effect definition looks similar to a trait definition because it acts as an interface
+but in contrast to instances (the trait implementations), effects are not handled globally, their actual
+implementation is context dependent. The execution context of a code block determines how the effect is handled.
+In other words, the effect acts as a hole in the program, allowing the caller to control what happens when
+an effect is called.
+Because Siko is a low level programming language, it does not have a language
+specific runtime, it does not do stack juggling in a way that you would expect if you heard about algebraic
+effects previously.</p><h2><a href=/posts/siko-language-redesign/>Siko language redesign</a></h2><p>For those who encountered Siko before and for some reason still remember it, you may have noticed that the
+language has undergone some significant changes.
+The goal of this redesign is to improve usability, performance, and overall developer experience.
+Both visually and semantically, the language is now an imperative language.</p><pre tabindex=0><code class=language-siko data-lang=siko>module Main {
+
+fn main() {
+  println(&#34;Hello, Siko!&#34;);
+}
+
+}
+</code></pre></main><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js></script><script src=/siko-syntax.js></script></body></html>

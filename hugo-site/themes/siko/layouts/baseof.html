@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.LanguageCode }}" dir="{{ or site.Language.LanguageDirection `ltr` }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} - {{ .Site.Title }}{{ end }}</title>
+  <meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+
+  <!-- Highlight.js CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css">
+  <link rel="stylesheet" href="{{ "style.css" | relURL }}">
+</head>
+
+<body>
+  <header class="blog-header">
+    <div class="logo-container">
+      <img src="{{ "logo.png" | relURL }}" alt="Siko programming language" id="logo" />
+    </div>
+    <h1 class="blog-title">{{ .Site.Title }}</h1>
+  </header>
+
+  <table style="margin-bottom: 1em;">
+    <tr>
+      <td><a href="https://github.com/siko-lang/siko" target="_blank" rel="noopener" title="GitHub">
+          <img src="{{ "github.svg" | relURL }}" alt="GitHub" height="32" width="32"
+            style="vertical-align:middle; filter: grayscale(1);">
+        </a></td>
+      <td><a href="https://discord.gg/Gfd8YDrYVC" target="_blank" rel="noopener" title="Discord">
+          <img src="{{ "discord.svg" | relURL }}" alt="Discord" height="32" width="32" style="vertical-align:middle;">
+        </a></td>
+    </tr>
+  </table>
+
+  <main>
+    {{ block "main" . }}{{ end }}
+  </main>
+
+  <!-- Highlight.js JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="{{ "siko-syntax.js" | relURL }}"></script>
+</body>
+</html>

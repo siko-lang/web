@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="blog-container">
+  {{ range .Site.RegularPages.ByDate.Reverse }}
+  {{ if eq .Section "posts" }}
+  <div class="blog-entry">
+    <div class="blog-date">{{ .Date.Format "2006 January 2" }}</div>
+    <h2 id="{{ .Title | urlize }}"><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+    {{ .Content }}
+  </div>
+  {{ end }}
+  {{ end }}
+</div>
+{{ end }}

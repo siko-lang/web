@@ -1,0 +1,53 @@
+# Hugo source files (track these)
+# hugo-site/ - keep this directory tracked
+
+# Hugo generated files (ignore these)
+hugo-site/public/
+hugo-site/.hugo_build.lock
+
+# Hugo resources (can be regenerated)
+hugo-site/resources/
+
+# Root directory files (track these for GitHub Pages)
+# /index.html - track this
+# /categories/ - track this
+# /posts/ - track this
+# /tags/ - track this
+# /index.xml - track this
+# /sitemap.xml - track this
+# /favicon.ico - track this
+# /style.css - track this
+
+# Local development
+.DS_Store
+*.log
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+
+# OS generated files
+Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
+*.temp
+
+# OS generated files
+Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Desktop.ini
