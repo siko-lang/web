@@ -155,3 +155,41 @@ p {
     color: #cc6600 !important;
     /* Orange for numbers */
 }
+
+@media (max-width: 768px) {
+    body {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        padding: 16px !important;
+        text-align: left !important;
+        /* better readability on narrow screens */
+    }
+
+    .blog-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1em !important;
+    }
+
+    .blog-header #logo {
+        width: 120px !important;
+        margin-bottom: 1em;
+    }
+
+    .blog-header h1 {
+        font-size: 1.6em !important;
+    }
+
+    pre {
+        font-size: 0.9em;
+        overflow-x: auto;
+    }
+
+    p {
+        text-indent: 0;
+        /* indentation looks weird on narrow text */
+    }
+}
