@@ -13,7 +13,7 @@ instance Foo[Bar] {
 
   }
 }
-</code></pre><p>This instance expresses that the struct Bar implements the Foo interface and if you call its foo() method the instance&rsquo;s implementation should be called. Let&rsquo;s use it.</p><pre tabindex=0><code class=language-siko data-lang=siko>
+</code></pre><p>This instance expresses that the struct Bar implements the Foo interface and if you call its foo() method then the instance&rsquo;s implementation will be used. Let&rsquo;s use it.</p><pre tabindex=0><code class=language-siko data-lang=siko>
 fn someFunc[T: Foo[T]](value: T) {
   value.foo();
 }
@@ -23,8 +23,7 @@ fn main() {
   b.foo(); // this calls the instance&#39;s foo() function
   someFunc(b); // the monomorphized version of someFunc will call the same foo() function
 }
-</code></pre><p>So far this is kind of what you would expect in a language with generics, it even uses standard naming for these patterns. No surprise there. The cool part is how Siko mixes global instance resolution with Scala style scope based resolution.</p><p>If you do not add a name to your instance then it will be a so called canonical instance. It behaves as you would expect if you are familiar with Rust&rsquo;s type system (or any other similar system) and it is available globally. For each type and trait pair there can be only a single canonical instance. This ensures that canonical instances are unambiguous. In Rust lingo, this property is called coherence.
-However, we are not stopping here. You can add names to instances and then they become something that you can export from your module and import from other modules.</p><pre tabindex=0><code class=language-siko data-lang=siko>module A {
+</code></pre><p>So far this is kind of what you would expect in a language with generics, it even uses standard naming for these patterns. No surprise there. The cool part is how Siko mixes global instance resolution with Scala style scope based resolution.</p><h3 id=canonical-instances>Canonical instances</h3><p>If you do not add a name to your instance then it will be a so called canonical instance. It behaves as you would expect if you are familiar with Rust&rsquo;s type system (or any other similar system) and it is available globally. For each type and trait pair there can be only a single canonical instance. This ensures that canonical instances are unambiguous. In Rust lingo, this property is called coherence.</p><h3 id=resolution-of-scoped-instances>Resolution of scoped instances</h3><p>However, we are not stopping here. You can add names to instances and then they become something that you can export from your module and import from other modules.</p><pre tabindex=0><code class=language-siko data-lang=siko>module A {
 
 // this instance is named MyFooInstance and it is exported (due to the pub keyword)
 pub instance MyFooInstance Foo[Bar] {
@@ -50,9 +49,9 @@ fn main() {
 }
 
 }
-</code></pre><p>The exact order of resolution is the following:</p><ul><li>module local instances have the highest priority</li><li>imported instances have a slightly lower priority</li><li>if all else fails then global, canonical instances are searched</li></ul><p>In case there are multiple matching candidate instances (in any of the priority level) then the resolution fails with instance ambiguity.
+</code></pre><p>The exact order of resolution is the following:</p><ul><li>module local instances have the highest priority</li><li>imported instances have a slightly lower priority</li><li>if all else fails then global, canonical instances are searched</li></ul><p>In case there are multiple matching candidate instances (in any of the priority levels) then the resolution fails with instance ambiguity.
 This system ensures that you have fine grained control over which instance(s) are used in which context. You do not have to worry about other modules creating unwanted instances.
-You can easily create local specialized instances which do not affect the other parts of your program. We do not need complex algorithms to sort instances and try to figure out which one is &lsquo;more specialized&rsquo; and you can write as many different instances as you want.</p><p>Additonally, you can still keep the same level of ease-of-use that you&rsquo;d expect and there is no extra boilerplate or manually passing around instances.</p><p>There is a corner case in the system, the handling of instances for Drop. The Drop trait defines a type&rsquo;s destructor. The Drop trait behaves differently compared to other traits because the compiler can conjure up Drop implementations for types which do not have Drop instances. These functions are not bound to a scope
+You can easily create local specialized instances which do not affect the other parts of your program. We do not need complex algorithms to sort instances and try to figure out which one is &lsquo;more specialized&rsquo; and you can write as many different instances as you want.</p><p>Additionally, you can still keep the same level of ease-of-use that you&rsquo;d expect and there is no extra boilerplate or manually passing around instances.</p><h3 id=the-drop-trait>The Drop trait</h3><p>There is a corner case in the system, the handling of instances for Drop. The Drop trait defines a type&rsquo;s destructor. The Drop trait behaves differently compared to other traits because the compiler can conjure up Drop implementations for types which do not have Drop instances. These functions are not bound to a scope
 so using scope bound instances for Drop would not make any sense.
 The solution Siko uses is that Drop instances must be canonical instances which I think even make sense conceptually. You really do not want multiple destructors for a type.</p></div><div class=blog-entry><div class=blog-date>2025 August 20</div><h2 id=implicits-and-effect-handlers><a href=https://siko-lang.github.io/posts/implicits-effect-handlers/>Implicits and effect handlers</a></h2><p>Siko now supports <strong>implicits</strong> and <strong>effect handlers</strong>.
 Because it may not be obvious what these features do and more importantly how they are implemented,
