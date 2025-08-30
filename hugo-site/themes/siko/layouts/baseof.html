@@ -19,7 +19,11 @@
     <h1 class="blog-title">{{ .Site.Title }}</h1>
   </header>
 
-  <table style="margin-bottom: 1em;">
+  <main>
+    {{ block "main" . }}{{ end }}
+  </main>
+
+  <table style="margin-top: 1em;">
     <tr>
       <td><a href="https://github.com/siko-lang/siko" target="_blank" rel="noopener" title="GitHub">
           <img src="{{ "github.svg" | relURL }}" alt="GitHub" height="32" width="32"
@@ -30,10 +34,6 @@
         </a></td>
     </tr>
   </table>
-
-  <main>
-    {{ block "main" . }}{{ end }}
-  </main>
 
   <!-- Highlight.js JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
