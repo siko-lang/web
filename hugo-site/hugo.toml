@@ -1,4 +1,4 @@
-baseURL = 'www.siko-lang.org'
+baseURL = 'https://www.siko-lang.org/'
 languageCode = 'en-us'
 title = 'Siko Programming Language'
 theme = 'siko'
