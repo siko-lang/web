@@ -10,11 +10,26 @@
           </a>
         </li>
         {{ range .Pages.ByWeight }}
+          {{ if not .Params.parent }}
           <li>
             <a href="{{ .RelPermalink }}">
               {{ .Title }}
             </a>
+            {{ $parentTitle := .Title }}
+            {{ $children := where $.Pages ".Params.parent" $parentTitle }}
+            {{ if $children }}
+            <ul>
+              {{ range $children.ByWeight }}
+              <li>
+                <a href="{{ .RelPermalink }}">
+                  {{ .Title }}
+                </a>
+              </li>
+              {{ end }}
+            </ul>
+            {{ end }}
           </li>
+          {{ end }}
         {{ end }}
       </ul>
     </aside>

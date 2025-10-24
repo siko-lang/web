@@ -49,6 +49,11 @@
     margin: 0;
 }
 
+.reference-sidebar ul ul {
+    margin-left: 1.2em;
+    margin-top: 0.3em;
+}
+
 .reference-sidebar li {
     margin-bottom: 0.5em;
 }
@@ -60,6 +65,12 @@
     display: block;
     border-radius: 4px;
     transition: background-color 0.2s ease;
+    font-size: 0.95em;
+}
+
+.reference-sidebar ul ul a {
+    font-size: 0.9em;
+    padding: 0.4em 0.7em;
 }
 
 .reference-sidebar a:hover {

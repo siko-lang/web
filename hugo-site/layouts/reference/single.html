@@ -11,11 +11,26 @@
           </a>
         </li>
         {{ range $section.Pages.ByWeight }}
+          {{ if not .Params.parent }}
           <li>
             <a href="{{ .RelPermalink }}" {{ if eq .RelPermalink $currentPage.RelPermalink }}class="active"{{ end }}>
               {{ .Title }}
             </a>
+            {{ $parentTitle := .Title }}
+            {{ $children := where $section.Pages ".Params.parent" $parentTitle }}
+            {{ if $children }}
+            <ul>
+              {{ range $children.ByWeight }}
+              <li>
+                <a href="{{ .RelPermalink }}" {{ if eq .RelPermalink $currentPage.RelPermalink }}class="active"{{ end }}>
+                  {{ .Title }}
+                </a>
+              </li>
+              {{ end }}
+            </ul>
+            {{ end }}
           </li>
+          {{ end }}
         {{ end }}
       </ul>
     </aside>

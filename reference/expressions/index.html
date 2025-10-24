@@ -1,34 +1,4 @@
-<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Expressions - Siko Programming Language</title><meta name=description content="A blog about the Siko programming language"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css><link rel=stylesheet href="/css/base.css?v=1761325391"><link rel=stylesheet href="/css/navigation.css?v=1761325391"><link rel=stylesheet href="/css/blog.css?v=1761325391"><link rel=stylesheet href="/css/reference.css?v=1761325391"><link rel=stylesheet href="/css/syntax-highlighting.css?v=1761325391"><link rel=stylesheet href="/css/responsive.css?v=1761325391"></head><body><header class=blog-header><div class=logo-container><img src=/logo.png alt="Siko programming language" id=logo></div><h1 class=blog-title>Siko Programming Language</h1></header><nav class=nav-menu><a href=/>Blog</a>
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Expressions - Siko Programming Language</title><meta name=description content="A blog about the Siko programming language"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs.min.css><link rel=stylesheet href="/css/base.css?v=1761334461"><link rel=stylesheet href="/css/navigation.css?v=1761334461"><link rel=stylesheet href="/css/blog.css?v=1761334461"><link rel=stylesheet href="/css/reference.css?v=1761334461"><link rel=stylesheet href="/css/syntax-highlighting.css?v=1761334461"><link rel=stylesheet href="/css/responsive.css?v=1761334461"></head><body><header class=blog-header><div class=logo-container><img src=/logo.png alt="Siko programming language" id=logo></div><h1 class=blog-title>Siko Programming Language</h1></header><nav class=nav-menu><a href=/>Blog</a>
 <a href=/reference/ class=active>Reference</a>
 <a href=https://github.com/siko-lang/siko target=_blank rel=noopener title=GitHub>GitHub</a>
-<a href=https://discord.gg/Gfd8YDrYVC target=_blank rel=noopener title=Discord>Discord</a></nav><main><div class=reference-container><aside class=reference-sidebar><h3>Contents</h3><ul><li><a href=/reference/>Overview</a></li><li><a href=/reference/basic-syntax/>Basic Syntax</a></li><li><a href=/reference/types/>Types</a></li><li><a href=/reference/expressions/ class=active>Expressions</a></li><li><a href=/reference/functions/>Functions</a></li><li><a href=/reference/modules/>Modules</a></li><li><a href=/reference/traits/>Traits & Instances</a></li><li><a href=/reference/effects/>Effect Handlers</a></li><li><a href=/reference/memory/>Memory Management</a></li><li><a href=/reference/coroutines/>Coroutines</a></li><li><a href=/reference/concurrency/>Concurrency</a></li><li><a href=/reference/ffi/>Foreign Function Interface</a></li></ul></aside><div class=reference-content><h1>Expressions</h1><p>Siko is expression-oriented, meaning most constructs return values.</p><h2 id=if-expressions>If Expressions</h2><pre tabindex=0><code class=language-siko data-lang=siko>let value = if condition {
-  42
-} else {
-  0
-};
-</code></pre><h2 id=match-expressions>Match Expressions</h2><p>Pattern matching is powerful and exhaustive:</p><pre tabindex=0><code class=language-siko data-lang=siko>match option {
-  Some(value) =&gt; println(&#34;Got: ${value}&#34;),
-  None =&gt; println(&#34;Nothing&#34;),
-}
-</code></pre><p>Match on multiple values:</p><pre tabindex=0><code class=language-siko data-lang=siko>match (x, y) {
-  (0, 0) =&gt; println(&#34;Origin&#34;),
-  (0, _) =&gt; println(&#34;On X axis&#34;),
-  (_, 0) =&gt; println(&#34;On Y axis&#34;),
-  (a, b) =&gt; println(&#34;Point: ${a}, ${b}&#34;),
-}
-</code></pre><h2 id=loops>Loops</h2><h3 id=while-loop>While Loop</h3><pre tabindex=0><code class=language-siko data-lang=siko>let mut i = 0;
-while i &lt; 10 {
-  println(&#34;${i}&#34;);
-  i += 1;
-}
-</code></pre><h3 id=loop-with-break>Loop with Break</h3><pre tabindex=0><code class=language-siko data-lang=siko>loop {
-  if condition {
-    break;
-  }
-}
-</code></pre><h2 id=block-expressions>Block Expressions</h2><p>The last expression in a block is its value:</p><pre tabindex=0><code class=language-siko data-lang=siko>let result = {
-  let x = compute();
-  let y = transform(x);
-  y * 2  // returned from block
-};
-</code></pre></div></div><script>document.addEventListener("DOMContentLoaded",function(){const e=document.querySelector(".reference-sidebar"),t=e.querySelector("a.active"),n=sessionStorage.getItem("sidebarScroll");if(n!==null)e.scrollTop=parseInt(n);else if(t){const n=t.offsetTop,s=e.clientHeight,o=t.offsetHeight;e.scrollTop=n-s/2+o/2}e.addEventListener("click",function(t){t.target.tagName==="A"&&sessionStorage.setItem("sidebarScroll",e.scrollTop)});let s;e.addEventListener("scroll",function(){clearTimeout(s),s=setTimeout(function(){sessionStorage.setItem("sidebarScroll",e.scrollTop)},100)})})</script></main><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js></script><script src="/siko-syntax.js?v=2025-08-30"></script></body></html>
+<a href=https://discord.gg/Gfd8YDrYVC target=_blank rel=noopener title=Discord>Discord</a></nav><main><div class=reference-container><aside class=reference-sidebar><h3>Contents</h3><ul><li><a href=/reference/>Overview</a></li><li><a href=/reference/modules/>Modules</a></li><li><a href=/reference/types/>Types</a></li><li><a href=/reference/expressions/ class=active>Expressions</a></li><li><a href=/reference/traits/>Traits & Instances</a></li><li><a href=/reference/effects/>Effect Handlers</a></li><li><a href=/reference/memory/>Memory Management</a></li><li><a href=/reference/coroutines/>Coroutines</a></li><li><a href=/reference/concurrency/>Concurrency</a></li><li><a href=/reference/ffi/>FFI</a></li></ul></aside><div class=reference-content><h1>Expressions</h1><p>PLACEHOLDER</p></div></div><script>document.addEventListener("DOMContentLoaded",function(){const e=document.querySelector(".reference-sidebar"),t=e.querySelector("a.active"),n=sessionStorage.getItem("sidebarScroll");if(n!==null)e.scrollTop=parseInt(n);else if(t){const n=t.offsetTop,s=e.clientHeight,o=t.offsetHeight;e.scrollTop=n-s/2+o/2}e.addEventListener("click",function(t){t.target.tagName==="A"&&sessionStorage.setItem("sidebarScroll",e.scrollTop)});let s;e.addEventListener("scroll",function(){clearTimeout(s),s=setTimeout(function(){sessionStorage.setItem("sidebarScroll",e.scrollTop)},100)})})</script></main><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js></script><script src="/siko-syntax.js?v=2025-08-30"></script></body></html>
