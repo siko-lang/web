@@ -1,0 +1,63 @@
+{{ define "main" }}
+  <div class="reference-container">
+    <aside class="reference-sidebar">
+      <h3>Contents</h3>
+      <ul>
+        {{ $currentPage := . }}
+        <li>
+          <a href="{{ .RelPermalink }}" class="active">
+            Overview
+          </a>
+        </li>
+        {{ range .Pages.ByWeight }}
+          <li>
+            <a href="{{ .RelPermalink }}">
+              {{ .Title }}
+            </a>
+          </li>
+        {{ end }}
+      </ul>
+    </aside>
+
+    <div class="reference-content">
+      <h1>{{ .Title }}</h1>
+      {{ .Content }}
+    </div>
+  </div>
+
+  <script>
+    // Preserve sidebar scroll position across page navigation
+    document.addEventListener('DOMContentLoaded', function() {
+      const sidebar = document.querySelector('.reference-sidebar');
+      const activeLink = sidebar.querySelector('a.active');
+
+      // Restore saved scroll position
+      const savedScroll = sessionStorage.getItem('sidebarScroll');
+      if (savedScroll !== null) {
+        sidebar.scrollTop = parseInt(savedScroll);
+      } else if (activeLink) {
+        // Center the active link in the sidebar view
+        const linkTop = activeLink.offsetTop;
+        const sidebarHeight = sidebar.clientHeight;
+        const linkHeight = activeLink.offsetHeight;
+        sidebar.scrollTop = linkTop - (sidebarHeight / 2) + (linkHeight / 2);
+      }
+
+      // Save scroll position when clicking links
+      sidebar.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A') {
+          sessionStorage.setItem('sidebarScroll', sidebar.scrollTop);
+        }
+      });
+
+      // Save scroll position periodically while scrolling
+      let scrollTimeout;
+      sidebar.addEventListener('scroll', function() {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(function() {
+          sessionStorage.setItem('sidebarScroll', sidebar.scrollTop);
+        }, 100);
+      });
+    });
+  </script>
+{{ end }}

@@ -39,7 +39,7 @@ clean:
 	@echo ""
 	@echo "Cleaning deployed files from root..."
 	rm -f index.html index.xml sitemap.xml favicon.ico
-	rm -rf categories/ posts/ tags/
+	rm -rf categories/ posts/ tags/ reference/
 	@echo "Clean complete!"
 	@echo ""
 	@echo "All generated files removed. Source files preserved."

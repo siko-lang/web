@@ -8,15 +8,13 @@ hugo-site/.hugo_build.lock
 # Hugo resources (can be regenerated)
 hugo-site/resources/
 
-# Root directory files (track these for GitHub Pages)
-# /index.html - track this
-# /categories/ - track this
-# /posts/ - track this
-# /tags/ - track this
-# /index.xml - track this
-# /sitemap.xml - track this
-# /favicon.ico - track this
-# /style.css - track this
+# Root directory files - TRACK THESE for GitHub Pages deployment
+# /index.html - serves the site
+# /sitemap.xml - for SEO
+# /posts/ - blog posts
+# /reference/ - documentation
+# /css/ - stylesheets
+# /categories/, /tags/ - Hugo taxonomies
 
 # Local development
 .DS_Store

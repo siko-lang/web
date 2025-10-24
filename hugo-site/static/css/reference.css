@@ -1,0 +1,96 @@
+/* Reference documentation layout */
+.reference-container {
+    display: flex;
+    gap: 2em;
+    position: relative;
+}
+
+.reference-sidebar {
+    position: fixed;
+    top: 80px;
+    left: 40px;
+    width: 280px;
+    background: #01172e;
+    border-radius: 8px;
+    padding: 1.5em;
+    height: calc(100vh - 110px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Scrollbar styling */
+.reference-sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.reference-sidebar::-webkit-scrollbar-track {
+    background: #01172e;
+}
+
+.reference-sidebar::-webkit-scrollbar-thumb {
+    background: #0857a7;
+    border-radius: 4px;
+}
+
+.reference-sidebar::-webkit-scrollbar-thumb:hover {
+    background: #0a6bc4;
+}
+
+.reference-sidebar h3 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #d1fc4f;
+    margin-bottom: 1em;
+}
+
+.reference-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.reference-sidebar li {
+    margin-bottom: 0.5em;
+}
+
+.reference-sidebar a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 0.5em 0.8em;
+    display: block;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.reference-sidebar a:hover {
+    background: #0857a7;
+}
+
+.reference-sidebar a.active {
+    background: #0857a7;
+    font-weight: 600;
+}
+
+.reference-content {
+    margin-left: calc(280px + 2em);
+    background: #01172e;
+    border-radius: 8px;
+    padding: 2em;
+    width: 100%;
+}
+
+.reference-content h2 {
+    color: #d1fc4f;
+    border-bottom: 2px solid #0857a7;
+    padding-bottom: 0.5em;
+    margin-top: 1.5em;
+}
+
+.reference-content h2:first-child {
+    margin-top: 0;
+}
+
+.reference-content h3 {
+    color: #f05cbf;
+    margin-top: 1.2em;
+}

@@ -1,0 +1,27 @@
+/* Custom highlight.js overrides for Siko */
+/* Base text color for code blocks - all identifiers will use this */
+.hljs {
+    color: #ffffff !important;
+}
+
+.hljs-comment {
+    color: #969393 !important;
+    font-style: italic;
+}
+
+.hljs-keyword {
+    color: #d1fc4f !important;
+    font-weight: bold;
+}
+
+.hljs-type {
+    color: #f05cbf !important;
+}
+
+.hljs-string {
+    color: #009900 !important;
+}
+
+.hljs-number {
+    color: #cc6600 !important;
+}
