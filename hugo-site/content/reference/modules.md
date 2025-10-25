@@ -10,11 +10,11 @@ In Siko, every line of code is in a module, that is the unit of organization. Mo
 ```siko
 module MyModule {
 
-pub fn public_function() {
+pub fn publicFunction() {
   // visible outside module
 }
 
-fn private_function() {
+fn privateFunction() {
   // only visible within module
 }
 
@@ -35,15 +35,15 @@ module Main {
 import MyModule
 
 fn main() {
-  MyModule.public_function();
+  MyModule.publicFunction();
 }
 
 }
 ```
 
 By default, the import will bring all public definitions into the local namespace with various aliases:
-- the item will be available by its own name. A function named public_function can be called by calling public_function().
-- the item will be available by its qualified name, which for top level items is the module_name.item_name. In the previous example, the MyModule.public_function is a qualified name.
+- the item will be available by its own name. A function named publicFunction can be called by calling publicFunction().
+- the item will be available by its qualified name, which for top level items is the module_name.item_name. In the previous example, the MyModule.publicFunction is a qualified name.
 - enum variants are available by 3 names: the variant name itself, the enum_name.variant_name and finally, the module_name.enum_name.variant_name.
 For example, the names True, Bool.True and Bool.Bool.True refer to the same variant, because the Bool enum is defined in the Bool module.
 
@@ -57,11 +57,11 @@ Import with an alias:
 import MyModule as M
 
 fn main() {
-  M.public_function();
+  M.publicFunction();
 }
 ```
 
-When using a module alias, the unqualified item aliases are not brought into the local namespace, only qualified ones and instead of the original source module name, the defined module alias will be used. In the example above, the M.public_function refers to the public_function function in the MyModule that is given the alias M in the current context.
+When using a module alias, the unqualified item aliases are not brought into the local namespace, only qualified ones and instead of the original source module name, the defined module alias will be used. In the example above, the M.publicFunction refers to the publicFunction function in the MyModule that is given the alias M in the current context.
 
 Although the module system is flat, meaning there is NO module hierarchy whatsoever, the module names can contain dots, so you can give them more meaningful names. However, keep in mind that modules Foo and Foo.Bar are NOT related in any way, they just happen to have the same prefix. Naming the modules correctly is recommended as that helps building the correct mental model of the program.
 
