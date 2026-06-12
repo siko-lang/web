@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Siko — Effects & Implicits: Two Years In</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+  <div class="container">
+
+    <p class="post-meta"><a href="../index.html">Siko Language</a> · <a href="../blog.html">Blog</a> · Effects & Implicits: Two Years In</p>
+
+    <div class="split split-blog">
+      <div class="split-left" id="blog-nav"></div>
+      <div class="split-right">
+        <p class="post-meta">2026-06-12</p>
+        <h1>Effects & Implicits: Two Years In</h1>
+<p>When we started Siko, effect systems were a research curiosity. Most production languages either ignored them entirely or bolted them on as syntactic sugar over monads. We wanted something that felt native — where swapping a handler was as natural as passing an argument.</p>
+<p>The core insight is that effects and implicits solve different problems. An effect is about <strong>behaviour</strong>: what happens when you call <code>read_line()</code> depends entirely on which handler is in scope. An implicit is about <strong>context</strong>: a piece of data that threads through call chains without appearing in every signature.</p>
+<pre><code>effect TeleType {
+    fn read_line() -&gt; String
+    fn println(input: String)
+}
+
+fn run() {
+    while True {
+        let input = read_line();
+        if input == "exit" { break; }
+        println("You said: ${input}");
+    }
+}
+</code></pre>
+<p>The <code>with</code> block wires handlers at the call site. In tests you pass mocks; in production you pass the real I/O functions. The compiler enforces that every effect method has a handler in scope — no runtime surprises.</p>
+<p>Two years in, the model has held up. The biggest surprise was how cleanly effects compose with the trait system: a generic handler like <code>fn log[T: ToString[T]](value: T)</code> can be wired to a non-generic effect method, and the monomorphizer figures out the type args from the call site.</p>
+
+      </div>
+    </div>
+
+  </div>
+  <script src="../siko-highlight.js"></script>
+  <script>fetch('nav.html').then(r=>r.text()).then(h=>document.getElementById('blog-nav').innerHTML=h);</script>
+</body>
+
+</html>

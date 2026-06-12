@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Closures & Captures — Siko</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../style.css">
+</head>
+
+<body>
+  <div class="container">
+
+    <p class="post-meta"><a href="../../index.html">Siko Language</a> · <a href="../../reference.html">Reference</a> · <a href="../advanced.html">Advanced Topics</a> · Closures & Captures</p>
+
+    <h1>Closures & Captures</h1>
+<p>Closures are anonymous functions that can capture variables from the surrounding scope. In Siko they are written with <code>|args|</code> syntax and the argument types are always inferred.</p>
+<h2>Basic Syntax</h2>
+<pre><code>let double = |x| x * 2;
+let add    = |x, y| x + y;
+</code></pre>
+<p>A closure with a body block:</p>
+<pre><code>let greet = |name| {
+    let msg = "Hello, ${name}!";
+    println(msg);
+};
+</code></pre>
+<h2>Captures</h2>
+<p>A closure captures variables from its enclosing scope by reference. Mutations inside the closure are visible outside:</p>
+<pre><code>let count = 0;
+let inc = || { count = count + 1; };
+inc();
+inc();
+// count is now 2
+</code></pre>
+<h2>Closures as Arguments</h2>
+<p>The most common use is passing closures to higher-order functions:</p>
+<pre><code>let nums = [1, 2, 3, 4, 5];
+let evens = nums.iter().filter(|x| x % 2 == 0).collect();
+let doubled = nums.iter().map(|x| x * 2).collect();
+</code></pre>
+<h2>Returning Closures</h2>
+<p>A function can return a closure. The return type uses the <code>fn</code> type:</p>
+<pre><code>fn make_adder(n: Int) -&gt; fn(Int) -&gt; Int {
+    |x| x + n
+}
+
+let add5 = make_adder(5);
+let result = add5(3);   // 8
+</code></pre>
+<h2>Closures and Effects</h2>
+<p>Closures inherit the effect context of their enclosing scope. A closure defined inside a <code>with</code> block can call effect methods directly:</p>
+<pre><code>with log = console_log {
+    let action = || Logger.log("from closure");
+    action();   // dispatches to console_log
+}
+</code></pre>
+
+
+  </div>
+  <script src="../../siko-highlight.js"></script>
+</body>
+
+</html>

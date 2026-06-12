@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Effect Handlers in Depth — Siko</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../../../style.css">
+</head>
+
+<body>
+  <div class="container">
+
+    <p class="post-meta"><a href="../../../index.html">Siko Language</a> · <a href="../../../reference.html">Reference</a> · <a href="../../advanced.html">Advanced Topics</a> · <a href="../effects.html">Effects</a> · Effect Handlers in Depth</p>
+
+    <h1>Effect Handlers in Depth</h1>
+<p>Effect handlers are the mechanism by which abstract effect operations are given concrete implementations. This page covers the advanced mechanics.</p>
+<h2>Handler Signatures</h2>
+<p>A handler for an effect method must match the method's signature exactly. The handler itself can be generic as long as the type variables can be inferred from the call site:</p>
+<pre><code>effect Printer {
+    fn print_value(s: String)
+}
+
+fn generic_handler[T: ToString[T]](value: T) {
+    println(value.to_string())
+}
+
+fn main() {
+    with print_value = generic_handler {
+        Printer.print_value("hello")
+    }
+}
+</code></pre>
+<h2>Nested Handlers</h2>
+<p>Handlers can be nested. The innermost <code>with</code> block wins for any given effect method:</p>
+<pre><code>with log = file_log {
+    Logger.log("goes to file");
+    with log = console_log {
+        Logger.log("goes to console");
+    }
+    Logger.log("goes to file again");
+}
+</code></pre>
+<h2>Handlers Calling Effects</h2>
+<p>A handler can itself call other effect methods. The handler runs in the same effect context as the call site, so it inherits all active handlers:</p>
+<pre><code>fn logging_handler(msg: String) {
+    Metrics.increment("log_count");
+    println(msg);
+}
+</code></pre>
+<p>Here <code>Metrics.increment</code> must also have a handler in scope at the <code>with</code> site.</p>
+
+
+  </div>
+  <script src="../../../siko-highlight.js"></script>
+</body>
+
+</html>

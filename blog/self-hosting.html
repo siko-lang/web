@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Siko — Writing a Self-Hosting Compiler</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+  <div class="container">
+
+    <p class="post-meta"><a href="../index.html">Siko Language</a> · <a href="../blog.html">Blog</a> · Writing a Self-Hosting Compiler</p>
+
+    <div class="split split-blog">
+      <div class="split-left" id="blog-nav"></div>
+      <div class="split-right">
+        <p class="post-meta">2026-05-01</p>
+        <h1>Writing a Self-Hosting Compiler</h1>
+<p>The milestone everyone asks about: the moment the compiler compiles itself. It sounds like a party trick until you actually try it — then it becomes the most brutally honest test suite you have ever run.</p>
+<p>Every miscompilation that was previously hidden behind the Rust bootstrap compiler suddenly surfaces. Codegen bugs you papered over with workarounds, type inference edge cases you never hit in real programs, wrong calling conventions for C interop — they all show up at once.</p>
+<h2>The Bootstrap Problem</h2>
+<p>You need a working compiler to compile a compiler. We started with a Rust implementation of Siko and used it to bootstrap the self-hosted version. The key discipline: keep both compilers running on every test, diff the outputs, treat any divergence as a bug in the self-hosted build.</p>
+<pre><code>fn main() {
+    match CLI.parse_cli_args() {
+        Some(config) =&gt; {
+            Config.set_config(config);
+            Compiler.compile();
+        }
+        None =&gt; {}
+    }
+}
+</code></pre>
+<p>This sounds simple but it means your test suite doubles in size overnight. Every bug you find you have to ask: is this a bug in the self-hosted compiler, or does the Rust compiler also have it and we never noticed?</p>
+<h2>What Actually Broke</h2>
+<p>The first category was <strong>codegen bugs</strong>. The Rust compiler was lenient about things like struct layout and calling conventions because it was generating C and relying on the C compiler to sort it out. The self-hosted build exposed two cases where we were generating subtly wrong C that happened to work on x86 but would have failed on ARM.</p>
+<p>The second category was <strong>type inference edge cases</strong>. When you write a compiler in the language it compiles, you hit every dark corner of the type system. We found three cases where the typechecker gave a correct answer but via the wrong reasoning — the result was right but the witness tables it generated were wrong, which only mattered when the code was monomorphized with specific type arguments.</p>
+<p>The third category was <strong>implicit propagation</strong>. Implicits are threaded through call chains automatically, and the self-hosted compiler has deep call chains. We had a case where an implicit was being dropped at a module boundary — the Rust compiler handled it correctly by accident because of how it represented the call graph, but the self-hosted version exposed the bug cleanly.</p>
+<h2>Retiring the Bootstrap</h2>
+<p>Once all tests passed on both compilers, we did a final check: compile the self-hosted compiler with itself, then compile it again with the result. If both outputs are bit-for-bit identical, the compiler is <strong>reproducible</strong> — it produces the same binary regardless of which generation compiled it.</p>
+<p>It took two attempts. The first run had a non-determinism bug in how we iterated over a hash map when generating C struct field declarations. Order matters in C. Fixed, second run passed.</p>
+<p>We retired the Rust compiler the same day. The strangest feeling is opening a bug report and realising the compiler you are using to fix the bug is the same compiler that has the bug.</p>
+
+      </div>
+    </div>
+
+  </div>
+  <script src="../siko-highlight.js"></script>
+  <script>fetch('nav.html').then(r=>r.text()).then(h=>document.getElementById('blog-nav').innerHTML=h);</script>
+</body>
+
+</html>
